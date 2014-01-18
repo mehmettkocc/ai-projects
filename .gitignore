@@ -1,0 +1,43 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+#Ignore editor generated files
+*.swp
+*.swn
+*.swo
+*.gch*
+*~
+
+#Ignore student created binaries
+a.out
+*.o
+
+#Ignore Merge Conflict NFS file creation
+*.nfs*
+
+#VS files
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.v12.suo
+*.vcxproj
+*.vcxproj.filters
+Debug/
+
+#MATLAB files
+*.asv
+
+#main functions
+1/data/
