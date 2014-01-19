@@ -42,14 +42,14 @@ close all
 epochNum = 3;
 %regularization weight
 mu = 10.^[-2:2];
-%SGD learning rate -> inversely proportional to
+%SGD learning rate -> inversely proportional to decayRate
 lambda0 = 0.1;   decayRate = 0.75;
 %starting point for logistic regression coefficient
 beta = zeros(dataset.featNum, 1);
 %beta for each mu
 betaAll = zeros(length(mu), 1);
 %log-conditional-likelihood for each epoch
-LCL = zeros(epochNum, length(mu));
+LCL = zeros(length(mu), epochNum);
 
 
 %i --> index of current regularization weight
@@ -58,10 +58,13 @@ for i=1:length(mu)
     for j=1:epochNum
         %use smaller learning rate for each epoch
         lambda = lambda0^(decayRate*(j-1));
-        currentOrder = randperm(exNum);
-        for k=1:exNum
-            
-           beta = beta + lambda * (dataset.trainLabels)
+        currentOrder = randperm(trainExNum);
+        for k=1:trainExNum
+            x = dataset.trainFeats(currentOrder(k), :)';
+            y = dataset.trainLabelscurrentOrder(k);
+            p = getProb(x, y, beta);
+            beta = beta + lambda * ((y - p) * x - mu(i) * beta);
         end
+        LCL( )
     end
 end
