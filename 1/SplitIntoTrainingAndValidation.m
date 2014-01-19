@@ -4,11 +4,12 @@ Date: 1/18/14
 Description: Separates the whole training set into actual training set
 and validation set. A struct named dataset which should include
 those as its fields is needed as one of the inputs:
-all features --> dataset.trainFeatsFull
+all features --> dataset.trainFeatsFullN
 all labels --> dataset.trainLabelsFull
+number of all examples --> dataset.exNum
 %}
 function [trainExNum, valExNum, trainLabels, trainFeats, valLabels, valFeats] = ...
-    SplitIntoTrainingAndValidation(dataset, valSetRatio)
+    splitIntoTrainingAndValidation(dataset, valSetRatio)
 %example numbers from validation and training sets
 valExNum = floor(dataset.exNum * valSetRatio);
 trainExNum = dataset.exNum - valExNum;

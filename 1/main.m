@@ -2,25 +2,39 @@ close all
 %get train/test labels and features
 dataset.trainAll = importdata('data/newtrain.txt');
 dataset.testAll = importdata('data/newtest.txt');
+
 %total number of features (subtract 1 for labels and add 1 for constant x0=1)
 dataset.featNum = size(dataset.trainAll, 2);
 %count of examples from actualTraining+validation and test sets
 dataset.exNum = size(dataset.trainAll, 1);
 dataset.testExNum = size(dataset.testAll, 1);
+
 %train/test labels and features
 dataset.trainLabelsFull = dataset.trainAll(:, 1);
 dataset.testLabels = dataset.testAll(:, 1);
 dataset.trainFeatsFull = [ones(dataset.exNum, 1), dataset.trainAll(:, 2:end)];
+
 dataset.testFeats = [ones(size(dataset.testAll, 1), 1), dataset.testAll(:, 2:end)];
 %show the dataset statistics
 getFeatureStats(dataset.trainFeatsFull);
 getFeatureStats(dataset.testFeats);
-%get base rate
-trainBaseRate = sum(dataset.testExNum)/length(dataset.trainLabelsFull);
+%%
+%get base rates
+trainBaseRate = sum(dataset.trainLabelsFull==1)/length(dataset.trainLabelsFull);
+testBaseRate = sum(dataset.testLabels==1)/length(dataset.testLabels);
+
 %split into actualTraining and validation sets
-valSetRatio = 0.35;
+valSetRatio = 0.25;
 [dataset.trainExNum, dataset.valExNum, dataset.trainLabels, dataset.trainFeats,...
-    dataset.valLabels, dataset.valFeats] = SplitIntoTrainingAndValidation(dataset, valSetRatio);
+    dataset.valLabels, dataset.valFeats] = splitIntoTrainingAndValidation(dataset, valSetRatio);
+
+%normalize the sets
+[dataset.trainFeatsN, dataset.trainMean, dataset.trainStd] = ...
+    normalizeTrainZ(dataset.trainFeats);
+dataset.valFeatsN = normalizeTestZ(dataset.valFeats, dataset.trainMean,...
+    dataset.trainStd);
+dataset.testFeatsN = normalizeTestZ(dataset.testFeats, dataset.trainMean,...
+    dataset.trainStd);
 %%
 close all
 %SGD LEARNING
