@@ -8,7 +8,7 @@ beta is nx1 coefficient column vector
 %}
 function LCL = getLCL(feats, labels, beta)
 LCL = 0;
-for i=1:length(feats)
+for i=1:size(feats, 1)
    p = getProb(feats(i, :)', labels(i), beta);
    LCL = LCL + log(p);
 end

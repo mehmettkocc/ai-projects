@@ -37,13 +37,14 @@ dataset.testFeatsN = normalizeTestZ(dataset.testFeats, dataset.trainMean,...
     dataset.trainStd);
 %%
 close all
+format long;
 %SGD LEARNING
 %number of epoch in SGD
-epochNum = 3;
+epochNum = 7;
 %regularization weight
 mu = 10.^[-2:2];
 %SGD learning rate -> inversely proportional to decayRate
-lambda0 = 0.1;   decayRate = 0.75;
+lambda0 = 0.1;   decayRate = 0.9;
 %starting point for logistic regression coefficient
 beta = zeros(dataset.featNum, 1);
 %beta for each mu
@@ -51,20 +52,22 @@ betaAll = zeros(length(mu), 1);
 %log-conditional-likelihood for each epoch
 LCL = zeros(length(mu), epochNum);
 
-
 %i --> index of current regularization weight
 for i=1:length(mu)
     %j --> index of current epoch number
     for j=1:epochNum
         %use smaller learning rate for each epoch
         lambda = lambda0^(decayRate*(j-1));
-        currentOrder = randperm(trainExNum);
-        for k=1:trainExNum
-            x = dataset.trainFeats(currentOrder(k), :)';
-            y = dataset.trainLabelscurrentOrder(k);
+        currentOrder = randperm(dataset.trainExNum);
+        for k=1:dataset.trainExNum
+            x = dataset.trainFeatsN(currentOrder(k), :)';
+            y = dataset.trainLabels(currentOrder(k));
             p = getProb(x, y, beta);
             beta = beta + lambda * ((y - p) * x - mu(i) * beta);
+            if(~rem(k, 50))
+               beta = beta; 
+            end
         end
-        LCL( )
+        LCL(i, j) = getLCL(dataset.valFeatsN, dataset.valLabels, beta);
     end
 end

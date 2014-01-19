@@ -6,7 +6,7 @@ x and beta need to be column vectors
 %}
 function p = getProb(x, y, beta)
 p = 1/(1 + exp(beta' * x));
-if(y)
+if(y==1)
     p = 1 - p;
 end
 end
