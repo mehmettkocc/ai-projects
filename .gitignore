@@ -38,6 +38,7 @@ Debug/
 
 #MATLAB files
 *.asv
+*.mat
 
 #main functions
 1/data/

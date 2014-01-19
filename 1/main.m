@@ -24,7 +24,7 @@ trainBaseRate = sum(dataset.trainLabelsFull==1)/length(dataset.trainLabelsFull);
 testBaseRate = sum(dataset.testLabels==1)/length(dataset.testLabels);
 
 %split into actualTraining and validation sets
-valSetRatio = 0.25;
+valSetRatio = 0.3;
 [dataset.trainExNum, dataset.valExNum, dataset.trainLabels, dataset.trainFeats,...
     dataset.valLabels, dataset.valFeats] = splitIntoTrainingAndValidation(dataset, valSetRatio);
 
@@ -42,15 +42,17 @@ format long;
 %number of epoch in SGD
 epochNum = 7;
 %regularization weight
-mu = 10.^[-2:2];
+mu = 5.^[-6:3];
 %SGD learning rate -> inversely proportional to decayRate
 lambda0 = 0.1;   decayRate = 0.9;
 %starting point for logistic regression coefficient
 beta = zeros(dataset.featNum, 1);
 %beta for each mu
-betaAll = zeros(length(mu), 1);
-%log-conditional-likelihood for each epoch
+betaAll = zeros(dataset.featNum, length(mu));
+%log-conditional-likelihood for each mu and epoch
 LCL = zeros(length(mu), epochNum);
+%0-1 accuracy for each mu and epoch
+valAccuracy = zeros(length(mu), epochNum);
 
 %i --> index of current regularization weight
 for i=1:length(mu)
@@ -63,11 +65,13 @@ for i=1:length(mu)
             x = dataset.trainFeatsN(currentOrder(k), :)';
             y = dataset.trainLabels(currentOrder(k));
             p = getProb(x, y, beta);
-            beta = beta + lambda * ((y - p) * x - mu(i) * beta);
-            if(~rem(k, 50))
-               beta = beta; 
-            end
+            beta = beta + lambda * ((y - p) * x - mu(i) * beta);            
         end
         LCL(i, j) = getLCL(dataset.valFeatsN, dataset.valLabels, beta);
+        valAccuracy(i, j) = getAccuracy(dataset.valFeatsN, dataset.valLabels, beta);
     end
+    betaAll(:, i) = beta;
 end
+%get test accuracy
+[~, bestInd] = max(max(valAccuracy, [], 2));
+accuracy = getAccuracy(dataset.testFeatsN, dataset.testLabels, betaAll(:, bestInd));
