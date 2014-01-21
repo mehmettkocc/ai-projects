@@ -72,6 +72,7 @@ for i=1:length(mu)
     end
     betaAll(:, i) = beta;
 end
+
 %get test accuracy
 [~, bestInd] = max(max(valAccuracy, [], 2));
 accuracy = getAccuracy(dataset.testFeatsN, dataset.testLabels, betaAll(:, bestInd));
