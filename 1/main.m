@@ -42,7 +42,7 @@ format long;
 %number of epoch in SGD
 epochNum = 7;
 %regularization weight
-mu = 5.^[-6:3];
+mu = 2.^[-6:2];
 %SGD learning rate -> inversely proportional to decayRate
 lambda0 = 0.1;   decayRate = 0.9;
 %starting point for logistic regression coefficient
@@ -67,12 +67,13 @@ for i=1:length(mu)
             p = getProb(x, y, beta);
             beta = beta + lambda * ((y - p) * x - mu(i) * beta);            
         end
-        LCL(i, j) = getLCL(dataset.valFeatsN, dataset.valLabels, beta);
+        LCL(i, j) = getLCL2(dataset.valFeatsN, dataset.valLabels, beta);
         valAccuracy(i, j) = getAccuracy(dataset.valFeatsN, dataset.valLabels, beta);
     end
     betaAll(:, i) = beta;
 end
 
 %get test accuracy
-[~, bestInd] = max(max(valAccuracy, [], 2));
-accuracy = getAccuracy(dataset.testFeatsN, dataset.testLabels, betaAll(:, bestInd));
+[~, bestInd] = max(max(LCL, [], 2));
+bestBeta = betaAll(:, bestInd);
+accuracy = getAccuracy(dataset.testFeatsN, dataset.testLabels, bestBeta);

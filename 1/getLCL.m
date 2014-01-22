@@ -7,9 +7,7 @@ examples and n is number of features. labels is mx1 labels column vector.
 beta is nx1 coefficient column vector.
 %}
 function LCL = getLCL(feats, labels, beta)
-LCL = 0;
-for i=1:size(feats, 1)
-   p = getProb(feats(i, :)', labels(i), beta);
-   LCL = LCL + log(p);
-end
+logisticScores = (feats * beta) .* labels;
+logProbs = log(1./(1 + exp(-logisticScores)));
+LCL = sum(logProbs);
 end
