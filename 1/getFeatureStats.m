@@ -10,32 +10,32 @@ featNum = size(featureMatrix, 2);
 exNum = size(featureMatrix, 1);
 %MIN
 figure, 
-subplot(2, 3, 1), plot(1:featNum, min(featureMatrix), 'linewidth', 2); 
+subplot(2, 3, 1), plot(1:featNum, min(featureMatrix)); 
 xlim([0, featNum+1]);
-title(['ExNo: ', num2str(exNum), '. The min statistics for all features']);
+title(['(a)ExNo: ', num2str(exNum), '. The min for all features']);
 %MAX
-subplot(2, 3, 2), plot(1:featNum, max(featureMatrix), 'linewidth', 2);
+subplot(2, 3, 2), plot(1:featNum, max(featureMatrix));
 xlim([0, featNum+1]);
-title('The max statistics for all features');
+title('(b)The max statistics for all features');
 %MEAN
-subplot(2, 3, 3), plot(1:featNum, mean(featureMatrix), 'linewidth', 2);
+subplot(2, 3, 3), plot(1:featNum, mean(featureMatrix));
 xlim([0, featNum+1]);
-title('The mean statistics for all features');
+title('(c)The mean statistics for all features');
 %STD
-subplot(2, 3, 4), plot(1:featNum, std(featureMatrix), 'linewidth', 2);
+subplot(2, 3, 4), plot(1:featNum, std(featureMatrix));
 xlim([0, featNum+1]);
-title('The std statistics for all features');
+title('(d)The std statistics for all features');
 %SPARSITY
-subplot(2, 3, 5), plot(1:featNum, sum(featureMatrix==0)/exNum, 'linewidth', 2);
+subplot(2, 3, 5), plot(1:featNum, sum(featureMatrix==0)/exNum);
 xlim([0, featNum+1]);
-title('The sparsity statistics for all features');
+title('(e)The sparsity for all features');
 %DISTINCT VALUE NUMBER
 distinctValNum = zeros(1, featNum);
 for i=1:featNum
     distinctValNum(i) = length(unique(featureMatrix(:, i)));
 end
-subplot(2, 3, 6), plot(1:featNum, distinctValNum, 'linewidth', 2);
+subplot(2, 3, 6), plot(1:featNum, distinctValNum);
 xlim([0, featNum+1]);
-title('The distinct value number statistics for all features');
+title('(f)The number of distinct values for all features');
 
 end

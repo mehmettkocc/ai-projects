@@ -7,8 +7,8 @@ examples and n is number of features. labels is mx1 labels column vector
 of type double where positives are 1 and negatives are -1.beta is nx1
 coefficient column vector.
 
-This function computes LCL in a different way (but a mathematically equivalent
-from) than getLCL(...) not to be affected from overflow/underflow.
+This function computes LCL in a different way (but a mathematically equivalent 
+way) than getLCL(...) not to be affected from overflow/underflow.
 %}
 function LCL = getLCL2(feats, labels, beta)
 LCL = 0;
