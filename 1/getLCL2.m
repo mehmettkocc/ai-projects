@@ -1,8 +1,8 @@
 %{
 Author: Mehmet Koc
 Date: 1/21/14
-Description: Computes the log-conditional-likelihood a dataset based
-on beta and getProb.m. feats is mxn feature matrix where m is number of
+Description: Computes the log-conditional-likelihood (LCL) of a dataset based
+on beta(logistic regression coefficient). feats is mxn feature matrix where m is number of
 examples and n is number of features. labels is mx1 labels column vector
 of type double where positives are 1 and negatives are -1.beta is nx1
 coefficient column vector.
