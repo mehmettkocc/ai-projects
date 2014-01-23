@@ -109,6 +109,7 @@ xlabel('Epoch number'); ylabel('0/1 Accuracy');
 [~, bestInd] = max(max(LCL, [], 2));
 bestBeta = betaAll(:, bestInd);
 accuracy = getAccuracy(dataset.testFeatsN, dataset.testLabels, bestBeta);
+accuracyTable = getAccuracyTable(dataset.testFeatsN, dataset.testLabels, bestBeta);
 %%
 close all
 format long;
