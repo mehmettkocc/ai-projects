@@ -10,7 +10,8 @@ coefficient column vector.
 
 Uses getLCL2(...) and adds regularization term
 %}
-function RLCL = getRLCL(feats, labels, beta, mu)
+function [p, RLCL] = getRLCL(feats, labels, beta, mu)
 %regularization cost halved due to the formulation is Stochastic Gradient Ascent
-RLCL = getLCL2(feats, labels, beta) - mu*(beta'*beta)/2;
+[p, LCL] = getLCL2(feats, labels, beta);
+RLCL = -LCL + mu*(beta'*beta)/2;
 end

@@ -10,9 +10,10 @@ coefficient column vector.
 This function computes LCL in a different way (but a mathematically equivalent 
 way) than getLCL(...) not to be affected from overflow/underflow.
 %}
-function LCL = getLCL2(feats, labels, beta)
+function [p, LCL] = getLCL2(feats, labels, beta)
 LCL = 0;
 logisticScores = (feats * beta) .* labels;
+p = 1./(1 + exp(-logisticScores));
 for i = 1:length(logisticScores)
     if(logisticScores(i) < 0)
         LCL = LCL + (logisticScores(i) - log(1 + exp(logisticScores(i))));

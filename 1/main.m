@@ -67,7 +67,7 @@ for i=1:length(mu)
             p = getProb(x, y, beta);
             beta = beta + lambda * ((y - p) * x - mu(i) * beta);            
         end
-        LCL(i, j) = getLCL2(dataset.valFeatsN, dataset.valLabels, beta);
+        [~, LCL(i, j)] = getLCL2(dataset.valFeatsN, dataset.valLabels, beta);
         valAccuracy(i, j) = getAccuracy(dataset.valFeatsN, dataset.valLabels, beta);
     end
     betaAll(:, i) = beta;
