@@ -138,6 +138,7 @@ end
 [~, bestInd2] = max(LCL2);
 bestBeta2 = betaAll2(:, bestInd2);
 accuracy2 = getAccuracy(dataset.testFeatsN, dataset.testLabels, bestBeta2);
+accuracyTable2 = getAccuracyTable(dataset.testFeatsN, dataset.testLabels, bestBeta2);
 %plots for LCL and valAccuracy
 %for LCL
 % figure, subplot(1,3,1), semilogy(1:epochNum, -LCL');
