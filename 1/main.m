@@ -115,16 +115,21 @@ close all
 format long;
 %LBFGS LEARNING
 %beta for each mu
-beta2 = zeros(dataset.featNum, 1);
-betaAll2 = zeros(dataset.featNum, length(mu));
+%mu2 = 2.^[-1:8]';
+mu2 = 2.^[-1:0.2:2]';
+options=[];
+options.Method = 'lbfgs';
+options.useMex = 0;
+betaAll2 = zeros(dataset.featNum, length(mu2));
 %log-conditional-likelihood for each mu and epoch
-LCL2 = zeros(length(mu), 1);
+LCL2 = zeros(length(mu2), 1);
 %0-1 accuracy for each mu and epoch
-valAccuracy2 = zeros(length(mu), 1);
+valAccuracy2 = zeros(length(mu2), 1);
 
 %i --> index of current regularization weight
-for i=1:length(mu)
-	[beta2, RLCL, exitflag, output] = minFunc(@calcRLCL_objfun,beta2,options,dataset.trainFeatsN,dataset.trainLabels, mu(i));
+for i=1:length(mu2)
+    beta2 = zeros(dataset.featNum, 1);
+	[beta2, RLCL, exitflag, output] = minFunc(@calcRLCL_objfun,beta2,options,dataset.trainFeatsN,dataset.trainLabels, mu2(i));
     [~, LCL2(i)] = getLCL2(dataset.valFeatsN, dataset.valLabels, beta2);
     valAccuracy2(i) = getAccuracy(dataset.valFeatsN, dataset.valLabels, beta2);
     betaAll2(:, i) = beta2;
