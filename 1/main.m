@@ -116,22 +116,25 @@ format long;
 %LBFGS LEARNING
 %beta for each mu
 %mu2 = 2.^[-1:8]';
-mu2 = 2.^[-1:0.2:2]';
+mu2 = 2.^[-1:0.2:4]';
 options=[];
 options.Method = 'lbfgs';
 options.useMex = 0;
+valAccuracy2 = zeros(length(mu2), 1);
 betaAll2 = zeros(dataset.featNum, length(mu2));
 %log-conditional-likelihood for each mu and epoch
 LCL2 = zeros(length(mu2), 1);
 %0-1 accuracy for each mu and epoch
-valAccuracy2 = zeros(length(mu2), 1);
+
 
 %i --> index of current regularization weight
 for i=1:length(mu2)
     beta2 = zeros(dataset.featNum, 1);
+    tic
 	[beta2, RLCL, exitflag, output] = minFunc(@calcRLCL_objfun,beta2,options,dataset.trainFeatsN,dataset.trainLabels, mu2(i));
-    [~, LCL2(i)] = getLCL2(dataset.valFeatsN, dataset.valLabels, beta2);
+    toc
     valAccuracy2(i) = getAccuracy(dataset.valFeatsN, dataset.valLabels, beta2);
+    [~, LCL2(i)] = getLCL2(dataset.valFeatsN, dataset.valLabels, beta2);
     betaAll2(:, i) = beta2;
 end
 %%
@@ -141,33 +144,22 @@ accuracy2 = getAccuracy(dataset.testFeatsN, dataset.testLabels, bestBeta2);
 accuracyTable2 = getAccuracyTable(dataset.testFeatsN, dataset.testLabels, bestBeta2);
 %plots for LCL and valAccuracy
 %for LCL
-% figure, subplot(1,3,1), semilogy(1:epochNum, -LCL');
-% legend(num2str(mu)); 
-% xlim([1, epochNum]);
-% title('(a)LCL for all \mu values');
-% xlabel('Epoch number'); ylabel('log(-LCL)');
-% 
-% subplot(1,3,2), semilogy(1:epochNum, -LCL(1:(end-2), :)');
-% %legend(num2str(mu(1:(end-2))));
-% xlim([1, epochNum]);
-% title(['(b)LCL for all \mu values', 10, 'except last two']);
-% xlabel('Epoch number'); ylabel('log(-LCL)');
-% 
-% subplot(1,3,3), plot(3:epochNum, -LCL(1:(end-1), 3:end)');
-% %legend(num2str(mu(1:(end-1))));
-% xlim([3, epochNum]);
-% title(['(c)LCL for all \mu values except last', 10, 'one starting from 3rd epoch']);
-% xlabel('Epoch number'); ylabel('-LCL');
-% 
-% 
+figure, subplot(2,1,1), semilogy(mu2, -LCL2');
+xlim([0.5 12]);
+title('(a)log(-LCL) for all \mu values');
+xlabel('\mu'); ylabel('log(-LCL)');
+
+subplot(2,1,2), plot(mu2, -LCL2');
+xlim([0.5 12]);
+title(['(b)-LCL for all \mu values']);
+xlabel('\mu'); ylabel('-LCL');
+
 % %for accuracy
-% figure, subplot(1,2,1), plot(1:epochNum, valAccuracy');
-% legend(num2str(mu)); 
-% xlim([1, epochNum]);
-% title('(a)0/1 accuracy on the validation set');
-% xlabel('Epoch number'); ylabel('0/1 Accuracy');
+figure, subplot(1,2,1), plot(mu2, valAccuracy2');
+title('(a)0/1 accuracy on the validation set');
+xlabel('\mu'); ylabel('0/1 Accuracy');
 % 
-% subplot(1,2,2), plot(1:epochNum, valAccuracy'); 
+subplot(1,2,2), plot(mu2, valAccuracy2'); 
 % xlim([3, epochNum]); ylim([0.82, 0.87]);
-% title('(b)Zoomed 0/1 accuracy on the validation set');
-% xlabel('Epoch number'); ylabel('0/1 Accuracy');
+title('(b)Zoomed 0/1 accuracy on the validation set');
+xlabel('\mu'); ylabel('0/1 Accuracy');
