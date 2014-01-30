@@ -1,7 +1,7 @@
 cse250b-projects
 ================
-Four projects throughout the quarter ad-hoc solutions for projects written 
-mainly in Matlab:
+Four projects throughout the quarter and ad-hoc solutions for projects 
+written mainly in Matlab:
 
 1. Training logistic regression model with SGA and L-BFGS and testing on
 Gender Recognition (DCT) @ http://mlcomp.org/datasets/1571

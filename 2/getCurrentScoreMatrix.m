@@ -1,0 +1,14 @@
+%{
+Author: 
+Date:
+//////////////////////////////////////////////////////////////////////////
+Description:
+
+
+
+
+%}
+
+function Gk = getCurrentScoreMatrix()
+
+end
