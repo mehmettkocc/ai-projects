@@ -1,0 +1,7 @@
+POS: part-of-speech tags
+
+Template candidates:
+
+A_a = I( (POS(x_{i-1}), POS(x_{i})) = (u, v)) where (u, v) \el POSxPOS
+
+B_b = I( (y_{i-1}, y_i) = (c, d)) where (c, d) \el PUNCxPUNC
