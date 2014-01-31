@@ -1,4 +1,4 @@
-cse250b-projects
+ai-projects
 ================
 Four projects throughout the quarter and ad-hoc solutions for projects 
 written mainly in Matlab:
