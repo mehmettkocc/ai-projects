@@ -1,6 +1,6 @@
 %{
 Author: Mehmet Koc
-Date: 2/8/14
+Date: 2/9/14
 //////////////////////////////////////////////////////////////////////////
 Description: This function returns the alpha matrix A which includes the
 sum of probabilities of all possible label sequences up to k=columnIndex

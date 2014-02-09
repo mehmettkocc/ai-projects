@@ -11,17 +11,20 @@ trainingSetSize = exSize - valSetSize;
 %%
 % perceptron training
 % regularization parameter
-mu = 2.^(-2:2);
+muVal = 5.^(-2:2);
 % learning parameter and its exponential decay at each epoch
-lambda0 = 0.1; decayRate = 0.9;
+lambda0Val = 10.^(-2:1); decayRate = 0.8;
 % number of epochs used for training
 epochNum = 5;
 
-for i=1:length(mu)
+for i=1:length(muVal)
+    mu = muVal(i);
+    for j=1:length(lambda0Val)
+        lambda0 = lambda0Val(j);
+        for k=1:epochNum
+            lambda = lambda0(j) * decayRate^(k-1);
+            
+        end
+    end
     
-   for j=1:epochNum
-       lambda = lambda0 * decayRate^(j-1);
-       
-   end
-   
 end

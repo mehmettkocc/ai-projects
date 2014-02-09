@@ -9,8 +9,8 @@ from the best score to predict the labels for the whole sequence. --> VITERBI'S 
 
 For more info on G, read getScoreMatrix(...)
 
-This function in the end returns the unnormalized best score and the best sequence of 
-as the same length as the input example x.
+This function in the end returns the unnormalized best score and the best
+sequence of as the same length as the input example x.
 %}
 function [bestScore, bestLabels] = getBestLabelSequence(G, x)
 n = length(x);
