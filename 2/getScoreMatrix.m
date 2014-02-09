@@ -1,6 +1,6 @@
 %{
 Author: 
-Date:
+Date: 2/8/14
 //////////////////////////////////////////////////////////////////////////
 Description: getScoreMatrix(x, w) is a function which has 2 arguments:
 x = the example to calculate a score for using w
