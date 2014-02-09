@@ -8,7 +8,7 @@ instead of actual x and y are for enhanced performance. Simply, make sure
 dataset is loaded in workspace before calling this function and then access
 them using their indices passed as argument to this function.
 
-For example, if length(valInd)=n then it means features for these n
+For example, if length(exInd)=n then it means features for these n
 examples should be returned as features=[f1,f2,...,fn] where each f_i is a
 column vector for the features for the i_th example.
 %}
