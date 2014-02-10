@@ -31,6 +31,6 @@ for i=1:exNum
     end
 end
 
-accuracy = sum(diagonal(contingencyTable))/sum(contingencyTable(:));
+accuracy = sum(diag(contingencyTable))/sum(contingencyTable(:));
 
 end
