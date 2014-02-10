@@ -29,6 +29,17 @@ end
 m = length(ySet);
 n = length(x);
 G = zeros(m, m, n-1);
+sum = 0;
+f1 = getFeatures(ind, isTrain);
+f2 = getFeatures2(ind, Y, isTrain);
 
-
+for k = 1:n-1
+    for i = 1:m
+       for j = 1:m
+           sum = sum + w(i,j)*f1(i,j)*f2(i,j);
+       end
+       G(i,:,k) = sum;
+       sum = 0;
+    end
+end
 end
