@@ -40,7 +40,7 @@ lambda0Val = 10.^(-1:-1); decayRate = 0.8;
 epochNum = 5;
 
 % store grid-search results in these variables
-bestW = zeros(length(muVal), length(lambda0Val), featSize);
+allW = zeros(length(muVal), length(lambda0Val), featSize);
 avgLCL = zeros(length(muVal), length(lambda0Val));
 
 trainingFeatures = getFeatures(trainingInd, 1);
@@ -62,10 +62,14 @@ for i=1:length(muVal)
                 w = w + lambda * (trainingFeatures(:, l)-expectedFeatures-2*mu*w);
             end
         end
-        bestW(i, j, :) = w;
+        allW(i, j, :) = w;
         avgLCL(i, j) = getLCL(valInd, w, logZ, 1);
     end    
 end
-
-
+[bestLCL bestLCLInd] = max(avgLCL(:));
+[bestLCLIndX, bestLCLIndY] = ind2sub([length(muVal), length(lambda0Val)], bestLCLInd);
+bestW = allW(bestLCLIndX, bestLCLIndY, :);
+%%
+% test set results
+[contingencyTable accuracy] = getContingencyTable(1:testSize, bestW, 0);
 

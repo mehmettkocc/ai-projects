@@ -30,6 +30,6 @@ for i=1:exNum
     sumLCL = sumLCL + (w' * F(:, i) - logZ);
 end
 % score of the examples score = w' * F
-avgLCL = mean(sumLCL);
+avgLCL = sumLCL/exNum;
 
 end
