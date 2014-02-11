@@ -17,6 +17,7 @@ example.
 X = importdata('data/posTraining.txt');
 Xtest = importdata('data/posTest.txt');
 Y = importdata('data/trainingLabelsProcessed.txt');
+Ytest = importdata('data/testLabelsProcessed.txt');
 
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 % split into validation and actual training sets
@@ -47,7 +48,7 @@ epochNum = 5;
 allW = zeros(length(muVal), length(lambda0Val), featSize);
 avgLCL = zeros(length(muVal), length(lambda0Val));
 
-trainingFeatures = getFeatures(trainingInd, 1);
+trainingFeatures = getFeatures(trainingInd, 1, featSize, X, Y);
 % grid search 
 for i=1:length(muVal)
     mu = muVal(i);
@@ -59,11 +60,11 @@ for i=1:length(muVal)
         for k=1:epochNum
             lambda = lambda0 * decayRate^(k-1);
             for l=1:trainingSize
-                G = getScoreMatrix(trainingInd(l), w, 1);
-                [currBestSeq, ~] = getBestLabelSequence(G);                 
-                expectedFeatures = getFeatures2(trainingInd(l), currBestSeq, 1);
+                G = getScoreMatrix(trainingInd(l), w, 1, X, ySet);
+                [currBestSeq, ~] = getBestLabelSequence(G, X(l));                 
+                %expectedFeatures = getFeatures2(trainingInd(l), currBestSeq, 1);
                 % gradient ascent update
-                w = w + lambda * (trainingFeatures(:, l)-expectedFeatures-2*mu*w);
+                %w = w + lambda * (trainingFeatures(:, l)-expectedFeatures-2*mu*w);
             end
         end
         allW(i, j, :) = w;

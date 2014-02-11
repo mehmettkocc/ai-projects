@@ -18,7 +18,7 @@ The rows of each layer G_k correspond to y_{k-1} and the columns correspond
 to y_k
 %}
 
-function G = getScoreMatrix(ind, w, isTrain)
+function G = getScoreMatrix(ind, w, isTrain, X, ySet)
 % get the example from the relevant dataset
 if (isTrain)
     x = X(ind, :);
