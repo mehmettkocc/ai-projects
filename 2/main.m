@@ -16,7 +16,7 @@ example.
 
 X = importdata('data/posTraining.txt');
 Xtest = importdata('data/posTest.txt');
-Y = importdata('data/raw/trainingLabels.txt');
+Y = importdata('data/trainingLabelsProcessed.txt');
 
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 % split into validation and actual training sets
