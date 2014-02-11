@@ -18,9 +18,9 @@ X = importdata('data/posTraining.txt');
 Xtest = importdata('data/posTest.txt');
 %Y = importdata('data/trainingLabelsProcessed.txt');
 %Ytest = importdata('data/testLabelsProcessed.txt');
-fid = fopen('data/trainingLabelsProcessed.txt')
+fid = fopen('data/trainingLabelsProcessed.txt');
 Y = textscan(fid,'%s','Delimiter','\n');
-fid = fopen('data/testLabelsProcessed.txt')
+fid = fopen('data/testLabelsProcessed.txt');
 Ytest = textscan(fid,'%s','Delimiter','\n');
 
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
@@ -72,7 +72,7 @@ for i=1:length(muVal)
             end
         end
         allW(i, j, :) = w;
-        avgLCL(i, j) = getLCL(valInd, w, logZ, 1);
+        avgLCL(i, j) = getLCL(valInd, w, 1);
     end    
 end
 [bestLCL bestLCLInd] = max(avgLCL(:));
