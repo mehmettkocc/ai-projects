@@ -14,12 +14,16 @@ test examples. So, the each of 70115 rows in X and Y belong to one training
 example.
 %}
 
+X = importdata('data/posTraining.txt');
+Xtest = importdata('data/posTest.txt');
+Y = importdata('data/raw/trainingLabels.txt');
+
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 % split into validation and actual training sets
 allTrainingSize = size(X, 1);
 testSize = size(Xtest, 1);
 % put the length of features here
-featSize = 100;
+featSize = 9;
 % the [0, 1] percentage of validation set in all training set
 valRatio = 0.3;
 
@@ -29,7 +33,7 @@ tempInd = (1:allTrainingSize);
 valInd = tempInd(valIndLogical);
 trainingInd = tempInd(~valIndLogical);
 valSize = length(valInd);
-trainingSize = exSize - valSize;
+trainingSize = allTrainingSize - valSize; %%HERE INSTEAD OF ALLTRAININGSIZE THERE WAS EXSIZE, I ASSUMED IT WAS ALLTRSIZE AND CORRECTED IT, DELETE THIS COMMENT IF ASSUMPTION CORRECT!
 %%
 % perceptron training
 % regularization parameter
