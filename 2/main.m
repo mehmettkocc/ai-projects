@@ -16,8 +16,12 @@ example.
 
 X = importdata('data/posTraining.txt');
 Xtest = importdata('data/posTest.txt');
-Y = importdata('data/trainingLabelsProcessed.txt');
-Ytest = importdata('data/testLabelsProcessed.txt');
+%Y = importdata('data/trainingLabelsProcessed.txt');
+%Ytest = importdata('data/testLabelsProcessed.txt');
+fid = fopen('data/trainingLabelsProcessed.txt')
+Y = textscan(fid,'%s','Delimiter','\n');
+fid = fopen('data/testLabelsProcessed.txt')
+Ytest = textscan(fid,'%s','Delimiter','\n');
 
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 % split into validation and actual training sets
