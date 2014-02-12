@@ -8,6 +8,8 @@ sequence to obtain an m-by-m contingency table where m is the cardinality
 of the each label. Using the computed contingency table, 0/1 accuracy is
 also returned.
 
+w is the Jx1 weight column vector for the features.
+
 The last argument shows whether the examples should be chosen from the
 training set and test set. If isTrain=nonzero, example is chosen from the
 all training set, otherwise from the test set.

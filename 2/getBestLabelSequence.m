@@ -1,16 +1,16 @@
 %{
 Author: Mehmet Koc
-Date: 1/29/14,  Last Update:2/8/14
+Date: 1/29/14,  Last Update:2/12/14
 //////////////////////////////////////////////////////////////////////////
-Description: Given a score matrix G and an example x and the feature 
-weights w, infer the best scores for every position k=1 to n where n is the
-length of the sequence whose labels are to be found. In the end, backtrack 
-from the best score to predict the labels for the whole sequence. --> VITERBI'S ALGORITHM
+Description: Given a score matrix G,  infer the best labels(tags)/scores 
+for every position k=1 to n where n is the length of the sequence whose 
+labels are to be found. In the end, backtrack from the best score to 
+predict the labels for the whole sequence. --> VITERBI'S ALGORITHM
 
 For more info on G, read getScoreMatrix(...)
 
 This function in the end returns the unnormalized best score and the best
-sequence of as the same length as the input example x.
+sequence which is the same length as the input example x.
 %}
 function [bestLabels, bestScore] = getBestLabelSequence(G)
 n = size(G, 3);

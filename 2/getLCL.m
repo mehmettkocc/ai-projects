@@ -5,12 +5,13 @@ Date: 2/9/14
 Description: This function returns the average log conditional likelihood
 of the examples whose indices in the dataset provided (actual examples are
 not passed as argument for performance reasons) using the feature weights
-w and logZ.
+w.
 
 The last argument isTrain indicates whether the example belongs to all
 training set or test set:
 isTrain=nonzero, examples must be retrieved from all training set
 isTrain=zero, examples must be retrieved from test set
+
 For info on logZ, see getAlphaMatrix(...)
 
 Ideally, one would like to see avgLCL=0. The lower is the avgLCL, the worse
@@ -36,6 +37,7 @@ sumLCL = 0;
 
 for i=1:exNum
     G = getScoreMatrix(exInd(i), w, isTrain);
+    % find the log of normalization constant
     [~, logZ] = getAlphaMatrix(G);
     sumLCL = sumLCL + (w' * F(:, i) - logZ);
 end
