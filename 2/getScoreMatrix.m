@@ -1,5 +1,5 @@
 %{
-Author: Mehmet Koc / Zeynep Kurultay
+Author: 
 Date: 2/8/14
 //////////////////////////////////////////////////////////////////////////
 Description: getScoreMatrix(...) is a function which has 3 arguments:
@@ -39,15 +39,15 @@ m = length(ySet);
 n = length(x{1});
 G = zeros(m, m, n-1);
 
-% G_i is the current layer of G
-G_i = zeros(m, m);
+% G_k is the current layer of G
+G_k = zeros(m, m);
 for k = 1:n-1
     for i = 1:m
         for j = 1:m
-            G_i(i,j) = sum(w.*lowFeatures(i,j,x,k));
+            G_k(i,j) = sum(w.*lowFeatures(i,j,x,k));
         end
     end
-    G(:, :, k) = G_i;
+    G(:, :, k) = G_k;
 end
 
 
