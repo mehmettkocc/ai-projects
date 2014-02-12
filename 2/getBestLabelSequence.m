@@ -12,7 +12,7 @@ For more info on G, read getScoreMatrix(...)
 This function in the end returns the unnormalized best score and the best
 sequence of as the same length as the input example x.
 %}
-function [bestScore, bestLabels] = getBestLabelSequence(G, x)
+function [bestLabels, bestScore] = getBestLabelSequence(G, x)
 n = length(x);
 m = size(G, 1);
 % U is the best scores available k=column index given the last label is the row index

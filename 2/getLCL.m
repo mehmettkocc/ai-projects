@@ -18,10 +18,10 @@ is the performance of w passed as argument. So, avgLCL can be utilized to
 compare the performance of various candidate models with different w using
 a validation set.
 %}
-function avgLCL = getLCL(exInd, w, isTrain, featSize)
+function avgLCL = getLCL(exInd, w, isTrain, featSize, X, Y)
 % get the features of the examples
 exNum = length(exInd);
-F = getFeatures(exInd, isTrain, featSize, X, Y);
+F = getFeatures(exInd, isTrain);
 sumLCL = 0;
 
 for i=1:exNum

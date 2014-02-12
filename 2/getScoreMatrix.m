@@ -18,7 +18,10 @@ The rows of each layer G_k correspond to y_{k-1} and the columns correspond
 to y_k
 %}
 
-function G = getScoreMatrix(ind, w, isTrain, X, ySet)
+function G = getScoreMatrix(ind, w, isTrain)
+ySet=evalin('base','ySet');
+X=evalin('base','X');
+Xtest=evalin('base','Xtest');
 % get the example from the relevant dataset
 if (isTrain)
     x = X(ind, :);
@@ -27,15 +30,13 @@ else
 end
 % calculate m and n
 m = length(ySet);
-n = length(x);
+n = length(x{1});
 G = zeros(m, m, n-1);
 gi = zeros(m, m);
-sum = 0;
-
 for k = 1:n-1
     for i = 1:m
         for j = 1:m
-            gi(i,j) = sum(w.*lowFeatures(ySet(i),ySet(j),x,k));
+            gi(i,j) = sum(w.*lowFeatures(i,j,x,k));
         end
     end
     G(:,:,k) = gi;

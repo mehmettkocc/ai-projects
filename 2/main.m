@@ -5,6 +5,10 @@ example.
 %}
 
 load('data/data.mat');
+%X = X(1:100);
+%Y = Y(1:100);
+%Ytest = Ytest(1:100);
+%Xtest = Xtest(1:100);
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 % split into validation and actual training sets
 allTrainingSize = size(X, 1);
@@ -34,7 +38,7 @@ epochNum = 5;
 allW = zeros(length(muVal), length(lambda0Val), featSize);
 avgLCL = zeros(length(muVal), length(lambda0Val));
 
-trainingFeatures = getFeatures(trainingInd, 1, featSize, X, Y);
+trainingFeatures = getFeatures(trainingInd, 1);
 trainingFeatsN = normalizeTrainZ(trainingFeatures);
 % grid search 
 for i=1:length(muVal)
@@ -47,16 +51,16 @@ for i=1:length(muVal)
         for k=1:epochNum
             lambda = lambda0 * decayRate^(k-1);
             for l=1:trainingSize
-                G = getScoreMatrix(trainingInd(l), w, 1, X, ySet);
+                G = getScoreMatrix(trainingInd(l), w, 1);
                 [currBestSeq, ~] = getBestLabelSequence(G, X(l));                 
-                %expectedFeatures = getFeatures2(trainingInd(l), currBestSeq, 1);
-                %expectedFeatsN = normalizeTrainZ(expectedFeatures);
+                expectedFeatures = getFeatures2(trainingInd(l), currBestSeq, 1);
+                expectedFeatsN = normalizeTrainZ(expectedFeatures);
                 % gradient ascent update
-                %w = w + lambda * (trainingFeatsN(:, l)-expectedFeatsN-2*mu*w);
+                w = w + lambda * (trainingFeatsN(:, l)-expectedFeatsN-2*mu*w);
             end
         end
         allW(i, j, :) = w;
-        avgLCL(i, j) = getLCL(valInd, w, 1, featSize);
+        avgLCL(i, j) = getLCL(valInd, w, 1, featSize, X, Y);
     end    
 end
 [bestLCL bestLCLInd] = max(avgLCL(:));

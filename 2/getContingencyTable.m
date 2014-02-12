@@ -14,20 +14,25 @@ all training set, otherwise from the test set.
 %}
 function [contingencyTable, accuracy]= getContingencyTable(exInd, w, isTrain)
 exNum = length(exInd);
+ySet=evalin('base','ySet');
+Xtest=evalin('base','Xtest');
+Ytest=evalin('base','Ytest');
 m = length(ySet);
 contingencyTable = zeros(m, m);
+inputW = w(1,:);
+inputW = inputW';
 
 % infer the best sequence for each example and update its entry in the table
 for i=1:exNum
-    G = getScoreMatrix(exInd(i), w, isTrain);
-    [seq, ~] = getBestLabelSequence(G);
+    G = getScoreMatrix(exInd(i), inputW, isTrain);
+    [seq, ~] = getBestLabelSequence(G, Xtest{i});
     if (isTrain)
         realSeq = Y(exInd(i), :);
     else
         realSeq = Ytest(exInd(i), :);
-    end    
-    for j=1:length(seq)
-        contingencyTable(realSeq(j), seq(j))=contingencyTable(realSeq(j), seq(j))+1;
+    end   
+    for j=1:length(realSeq)
+        contingencyTable(realSeq{1}(j), seq(j))=contingencyTable(realSeq{1}(j), seq(j))+1;
     end
 end
 

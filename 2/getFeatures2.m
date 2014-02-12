@@ -21,11 +21,13 @@ column vector for the features for the i_th example.
 %}
 function features = getFeatures2(exInd, Y, isTrain)
 exNum = length(exInd);
+featSize=evalin('base','featSize');
+X=evalin('base','X');
 % featSize is the number of features
 features = zeros(featSize, exNum);
 
 for i=1:exNum
-   % get current x andy y from workspace
+   % get current x and y from workspace
     if (isTrain)
         x = X(exInd(i), :);
         y = Y(i, :);
@@ -34,7 +36,16 @@ for i=1:exNum
         y = Y(i, :);
     end
     % compute f_i=features(:, i)
-    %features(:, i) = ... 
+    if (length(x{1})==length(y))
+        start = lowFeatures(y{1}(1),7,x,1);
+        ending = lowFeatures(8,y{1}(length(x)),x,length(x));
+        middle = zeros(length(x));
+        % compute f_i=features(:, i)
+        for i=2:(length(x{1})-1)
+            middle = middle + lowFeatures(y{1}(i),y{1}(i-1),x,i);
+        end
+        features(:,j) = start+middle+ending;
+    end
 end
 
 end
