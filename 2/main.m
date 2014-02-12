@@ -60,7 +60,7 @@ for i=1:length(muVal)
             end
         end
         allW(i, j, :) = w;
-        avgLCL(i, j) = getLCL(valInd, w, 1, featSize, X, Y);
+        avgLCL(i, j) = getLCL(valInd, w, 1);
     end    
 end
 [bestLCL bestLCLInd] = max(avgLCL(:));

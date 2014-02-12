@@ -17,11 +17,13 @@ For example, if length(exInd)=n then it means features for these n
 examples should be returned as features=[f1,f2,...,fn] where each f_i is a
 column vector for the features for the i_th example.
 %}
-function features = getFeatures(exInd, isTrain, featSize)
-exNum = length(exInd);
+function features = getFeatures(exInd, isTrain)
+
 Y=evalin('base','Y');
 X=evalin('base','X');
 featSize=evalin('base','featSize');
+
+exNum = length(exInd);
 % featSize is the number of features
 features = zeros (featSize, exNum);
 
