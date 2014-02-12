@@ -5,6 +5,7 @@ function fj = lowFeatures(yi,yii,x,k)
 j = 9; % number of feature functions
 %ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 fj = zeros(j,1);
+
 fj(1) = ffTempA(x,k,'dt')*ffTempB(yi,6);
 fj(2) = ffTempA(x,1,'wrb')*ffTempB(yi,3);
 fj(3) = ffTempA(x,k,'prp')*ffTempB(yi,6);
@@ -17,7 +18,10 @@ fj(9) = ffTempA(x,1,'prp')*ffTempB(yi,6);
 %dummy features instead of having 36*36*2*2 feature functions for speed at
 %this initial stage
 end
-%feature function templates
+
+% ------------------------------------------------------------------------
+% feature function template helpers
+
 function b = ffTempB(yi,label)
     b = (yi==label);
 end
