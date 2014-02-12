@@ -1,5 +1,5 @@
 function fj = lowFeatures(yi,yii,x,k)
-%LOWFEATURES Summary of this function goes here
+%LOWFEATURES This function computes f_j.
 %   Detailed explanation goes here
 
 j = 9; % number of feature functions
@@ -27,9 +27,9 @@ function b = ffTempB2(yi,yii,labeli,labelii)
 end
 
 function a = ffTempA(x,k,posTag)
-    a = strcmpi(x(k),posTag);
+    a = strcmpi(x{1}(k),posTag);
 end
 
 function a = ffTempA2(x,k,posGroup)
-    a = sum(ismember(posGroup,x(k)));
+    a = sum(ismember(posGroup,x{1}(k)));
 end
