@@ -2,7 +2,7 @@ function fj = lowFeatures(yi,yii,x,k)
 %LOWFEATURES This function computes f_j.
 %   Detailed explanation goes here
 
-j = 10; % number of feature functions
+j = 46; % number of feature functions
 %ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 fj = zeros(j,1);
 
@@ -16,7 +16,13 @@ fj(7) = ffTempA3(x,k)*ffTempB(yi,1);
 fj(8) = ffTempA3(x,k)*ffTempB(yi,5);
 fj(9) = ffTempA3(x,k)*ffTempB(yi,2);
 fj(10) = ffTempA4(x,k,'VB','IN')*ffTempB(yi,6);
-
+count = 11;
+for i=1:6
+   for j=1:6
+       fj(count) = ffTempB2(yi,yii,i,j);
+       count=count+1;
+   end
+end
 end
 
 % ------------------------------------------------------------------------

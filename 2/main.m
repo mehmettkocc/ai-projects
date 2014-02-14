@@ -5,16 +5,18 @@ example.
 %}
 
 load('data/data.mat');
-%X = X(1:100);
-%Y = Y(1:100);
-%Ytest = Ytest(1:100);
-%Xtest = Xtest(1:100);
+%{
+X = X(1:1000);
+Y = Y(1:1000);
+Ytest = Ytest(1:1000);
+Xtest = Xtest(1:1000);
+%}
 ySet = {'COMMA', 'PERIOD' , 'QUESTION_MARK', 'EXCLAMATION_POINT', 'COLON', 'SPACE'};
 % split into validation and actual training sets
 allTrainingSize = size(X, 1);
 testSize = size(Xtest, 1);
 % put the length of features here
-featSize = 9;
+featSize = 46;
 % the [0, 1] percentage of validation set in all training set
 valRatio = 0.3;
 
@@ -52,7 +54,7 @@ for i=1:length(muVal)
             lambda = lambda0 * decayRate^(k-1);
             for l=1:trainingSize
                 G = getScoreMatrix(trainingInd(l), w, 1);
-                [currBestSeq, ~] = getBestLabelSequence(G, X(l));                 
+                [currBestSeq, ~] = getBestLabelSequence(G);                 
                 expectedFeatures = getFeatures2(trainingInd(l), currBestSeq, 1);
                 expectedFeatsN = normalizeTrainZ(expectedFeatures);
                 % gradient ascent update

@@ -17,14 +17,8 @@ all training set, otherwise from the test set.
 function [contingencyTable, accuracy]= getContingencyTable(exInd, w, isTrain)
 
 ySet=evalin('base','ySet');
-
-if (isTrain)
-    %Xtest=evalin('base','Xtest');
-    Ytest=evalin('base','Ytest');
-else
-    %X=evalin('base','X');
-    Y=evalin('base','Y');    
-end
+Ytest=evalin('base','Ytest');
+Y=evalin('base','Y');    
 
 exNum = length(exInd);
 m = length(ySet);
@@ -42,7 +36,7 @@ for i=1:exNum
         realSeq = Ytest(exInd(i), :);        
     end
     for j=1:length(realSeq)
-        contingencyTable(realSeq(j), seq(j))=contingencyTable(realSeq(j), seq(j))+1;
+        contingencyTable(realSeq{1}(j), seq(j))=contingencyTable(realSeq{1}(j), seq(j))+1;
     end
 end
 

@@ -39,7 +39,7 @@ for j=1:exNum
     if (length(x{1})==length(y{1}))
         start = lowFeatures(y{1}(1),7,x,1);
         ending = lowFeatures(8,y{1}(length(x)),x,length(x));
-        middle = zeros(length(x));
+        middle = zeros(featSize,1);
         % compute f_i=features(:, i)
         for i=2:(length(x{1})-1)
             middle = middle + lowFeatures(y{1}(i),y{1}(i-1),x,i);
