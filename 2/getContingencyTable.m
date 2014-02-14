@@ -23,12 +23,10 @@ Y=evalin('base','Y');
 exNum = length(exInd);
 m = length(ySet);
 contingencyTable = zeros(m, m);
-inputW = w(1,:);
-inputW = inputW';
 
 % infer the best sequence for each example and update its entry in the table
 for i=1:exNum
-    G = getScoreMatrix(exInd(i), inputW, isTrain);    
+    G = getScoreMatrix(exInd(i), w, isTrain);    
     [seq, ~] = getBestLabelSequence(G);
     if (isTrain)
         realSeq = Y(exInd(i), :);        
