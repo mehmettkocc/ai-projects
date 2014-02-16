@@ -30,9 +30,9 @@ trainingSize = allTrainingSize - valSize;
 %%
 % perceptron training
 % regularization parameter
-muVal = 5.^(0:0);
+muVal = 5.^(-2:2);
 % learning parameter and its exponential decay at each epoch
-lambda0Val = 10.^(-1:-1); decayRate = 0.8;
+lambda0Val = 10.^(-2:1); decayRate = 0.8;
 % number of epochs used for training
 epochNum = 5;
 
@@ -67,7 +67,7 @@ for i=1:length(muVal)
 end
 [bestLCL bestLCLInd] = max(avgLCL(:));
 [bestLCLIndX, bestLCLIndY] = ind2sub([length(muVal), length(lambda0Val)], bestLCLInd);
-bestW = allW(bestLCLIndX, bestLCLIndY, :);
+bestW = squeeze(allW(bestLCLIndX, bestLCLIndY, :));
 %%
 % test set results
 [contingencyTable accuracy] = getContingencyTable(1:testSize, bestW, 0);
