@@ -11,5 +11,5 @@ according to the criteria listed and return :
 function [processed, eliminatedInd] = preprocessBowMatrix(inputBowMatrix)
 % Criteria1: eliminate the words that occur <= 1
 eliminatedInd = (sum(inputBowMatrix) <= 1);
-processed = inputBowMatrix(:, eliminatedInd); 
+processed = inputBowMatrix(:, ~eliminatedInd); 
 end
