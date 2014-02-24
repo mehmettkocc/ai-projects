@@ -16,3 +16,4 @@ alpha = alpha0 * ones(K, 1);
 beta = beta0 * ones(V, 1);
 
 [components, N, Q] = assignRandomComponents(bowMatrix, K);
+%%
