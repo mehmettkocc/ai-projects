@@ -4,7 +4,7 @@ load('data/classic400.mat');
 [bowMatrix, eliminatedInd] = preprocessBowMatrix(classic400);
 eliminatedWords = classicwordlist(eliminatedInd);
 
-% parameters
+% initial parameters
 K = 3;  % num. of components in the mixture
 M = size(bowMatrix, 1); % num. of documents in the corpus
 V = size(bowMatrix, 2); % num. of words in the vocabulary
