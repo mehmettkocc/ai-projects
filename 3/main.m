@@ -21,15 +21,26 @@ beta = beta0 * ones(V, 1);
 Qsum = sum(Q, 2);
 %%
 % parameters
-epochNum = 10;
-componentPMFTable = zeros(C, K, epochNum);
+epochNum = 500;
+saveTimeNum = 4;
+NsaveTimes = ceil(logspace(0, log10(epochNum), saveTimeNum));
+Nsaved = zeros(M, K, saveTimeNum);
+saveCount = 1;
+
+componentPMFTable = zeros(C, K);
 
 for i = 1:epochNum
+    if (i == NsaveTimes(saveCount))
+        Nsaved(:, :, saveCount) = N;
+        saveCount = saveCount + 1;
+    end
     randOrder = randperm(C);
     for j = 1:C
         componentPMF = getComponentPMF(N, Q, Qsum, alpha, beta, vocInd(randOrder(j)),...
             docInd(randOrder(j)), compInd(randOrder(j)));
-        componentPMFTable(randOrder(j), :, i) = componentPMF';
+        if (i == epochNum)
+            componentPMFTable(randOrder(j), :) = componentPMF';
+        end
         % find the new component label
         k1 = selectNewComponent(componentPMF);
         % update the counts
@@ -55,21 +66,26 @@ wordNum = ceil(V*K/1000);
 lastPMF = componentPMFTable(:, :, epochNum);
 highProbWords = selectHighProbWords(lastPMF, wordNum, vocInd, vocWords);
 %%
-theta = N ./ repmat(docLength, [1 K]);
-
 figure,
-for i = 1:3
-    currTheta = theta(truelabels==i, :);
-    if (i == 1)
-        plot3(currTheta(:, 1), currTheta(:, 2), currTheta(:, 3), 'r.');
-    elseif (i == 2)
-        plot3(currTheta(:, 1), currTheta(:, 2), currTheta(:, 3), 'b.');
-    else
-        plot3(currTheta(:, 1), currTheta(:, 2), currTheta(:, 3), 'g.');    
+for i = 1:saveTimeNum
+    theta = Nsaved(:, :, i) ./ repmat(docLength, [1 K]);
+    subplot(2, 2, i),
+    for j = 1:3
+        currTheta = theta(truelabels==j, :);
+        if (j == 1)
+            plot3(currTheta(:, 1), currTheta(:, 2), currTheta(:, 3), 'r.');
+        elseif (j == 2)
+            plot3(currTheta(:, 1), currTheta(:, 2), currTheta(:, 3), 'b.');
+        else
+            plot3(currTheta(:, 1), currTheta(:, 2), currTheta(:, 3), 'g.');
+        end
+        hold on;
     end
-    hold on;    
+    hold off;
+    xlabel('\theta_1'); ylabel('\theta_2'); zlabel('\theta_3');
+    title(['Epoch number = ', num2str(NsaveTimes(i))]);
+    %legend('trueLabel=1', 'trueLabel=2', 'trueLabel=3');    
 end
-hold off;
-xlabel('\theta_1'); ylabel('\theta_2'); zlabel('\theta_3');
-legend('trueLabel=1', 'trueLabel=2', 'trueLabel=3');
 rotate3d on;
+%%
+% SVM training
