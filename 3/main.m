@@ -17,10 +17,23 @@ alpha = alpha0 * ones(K, 1);
 beta = beta0 * ones(V, 1);
 
 [compInd, vocInd, docInd, N, Q] = assignRandomComponents2(bowMatrix, K);
+Qsum = sum(Q, 2);
 %%
 % parameters 
 epochNum = 10;
 
 for i = 1:epochNum
     randOrder = randperm(C);
+    for j = 1:C
+        componentPMF = getComponentPMF(N, Q, Qsum, alpha, beta, vocInd(randOrder(j)),...
+            docInd(randOrder(j)), compInd(randOrder(j)));
+        % find the new component label
+        k1 = selectNewComponent(componentPMF);
+        % update the counts
+        [N, Q, Qsum] = updateCounts(N, Q, Qsum, compInd(randOrder(j)), k1,...
+             vocInd(randOrder(j)), docInd(randOrder(j)));
+        % update the component label 
+        compInd(randOrder(j)) = k1;
+    end
 end
+
