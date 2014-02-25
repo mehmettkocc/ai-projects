@@ -3,6 +3,7 @@ load('data/classic400.mat');
 % preprocess the bag-of-words representation
 [bowMatrix, eliminatedInd] = preprocessBowMatrix(classic400);
 eliminatedWords = classicwordlist(eliminatedInd);
+vocWords = classicwordlist(~eliminatedInd);
 
 % initial parameters
 K = 3;  % num. of components in the mixture
@@ -21,12 +22,14 @@ Qsum = sum(Q, 2);
 %%
 % parameters 
 epochNum = 10;
+componentPMFTable = zeros(C, K, epochNum);
 
 for i = 1:epochNum
     randOrder = randperm(C);
     for j = 1:C
         componentPMF = getComponentPMF(N, Q, Qsum, alpha, beta, vocInd(randOrder(j)),...
             docInd(randOrder(j)), compInd(randOrder(j)));
+        componentPMFTable(randOrder(j), :, i) = componentPMF';
         % find the new component label
         k1 = selectNewComponent(componentPMF);
         % update the counts
@@ -36,4 +39,18 @@ for i = 1:epochNum
         compInd(randOrder(j)) = k1;
     end
 end
+%%
+%{
+probThreshold = 0.95;
+highProbWords = cell(K, 1);
 
+for i=1:K
+    ind = unique(vocInd(componentPMFTable(:, i, epochNum) > probThreshold));
+    highProbWords{i} = vocWords(ind);
+end
+%}
+% select the best 0.1% of all vocabulary for each k in 1:K
+wordNum = ceil(V*K/1000);
+
+lastPMF = componentPMFTable(:, :, epochNum);
+highProbWords = selectHighProbWords(lastPMF, wordNum, vocInd, vocWords);

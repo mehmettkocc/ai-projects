@@ -18,11 +18,13 @@ num1 = Q(:, v) - aux1 + beta(v) * ones(K, 1);
 den1 = Qsum - aux1 + sum(beta) * ones(K, 1);
 
 aux2 = zeros(K, 1);  
-aux2(m) = 1;
+aux2(k) = 1;
 
-num2 = N(m, :)' - aux2 + alpha(m) * ones(K, 1);
+num2 = N(m, :)' - aux2 + alpha;
 
 % unnormalized PMF
 componentPMF = num1 .* num2 ./ den1;
+% normalized PMF
+componentPMF = componentPMF/sum(componentPMF);
 
 end
