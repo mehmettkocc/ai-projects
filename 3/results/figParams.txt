@@ -1,0 +1,2 @@
+fig2: K=3, alpha0=50/K, beta0=0.01
+fig3: K=3, alpha0=0.01, beta0=50/K

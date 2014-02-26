@@ -6,7 +6,7 @@ eliminatedWords = classicwordlist(eliminatedInd);
 vocWords = classicwordlist(~eliminatedInd);
 
 % initial parameters
-K = 3;  % num. of components in the mixture
+K = 5;  % num. of components in the mixture
 M = size(bowMatrix, 1); % num. of documents in the corpus
 V = size(bowMatrix, 2); % num. of words in the vocabulary%
 C = full(sum(bowMatrix(:)));  % num. of words in the whole corpus
@@ -60,11 +60,18 @@ for i=1:K
     highProbWords{i} = vocWords(ind);
 end
 %}
-% select the best 0.1% of all vocabulary for each k in 1:K
-wordNum = ceil(V*K/1000);
+% select the best 0.2% of all vocabulary for each k in 1:K
+wordNum = ceil(V*K/500);
 
-lastPMF = componentPMFTable(:, :, epochNum);
-highProbWords = selectHighProbWords(lastPMF, wordNum, vocInd, vocWords);
+%lastPMF = componentPMFTable(:, :, epochNum);
+highProbWords = selectHighProbWords(componentPMFTable, wordNum, vocInd, vocWords);
+%%
+alphaVal = [0.1, 1, 10];
+
+figure,
+for i = 1:length(alphaVal)
+    subplot(1, 3, i), plotDirichletDist(alphaVal(i) * ones(3, 1));
+end
 %%
 figure,
 for i = 1:saveTimeNum
