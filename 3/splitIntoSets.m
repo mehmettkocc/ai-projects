@@ -2,28 +2,25 @@
 Author: Mehmet Koc
 Date: 2/25/14
 --------------------------------------------------------------------------
-Description: Separates the whole training set into actual training set
-and validation set. A struct named dataset which should include
-those as its fields is needed as one of the inputs:
-all features --> dataset.trainFeatsFullN
-all labels --> dataset.trainLabelsFull
-number of all examples --> dataset.exNum
+Description: Separates the dataset into training and test sets whose ratio
+is determined by testRatio which is the [0, 1] ratio of test set in the
+dataset.
 %}
-function [trainExNum, valExNum, trainLabels, trainFeats, valLabels, valFeats] = ...
-    splitIntoSets(dataset, valSetRatio)
+function [trainData, trainLabels, testData, testLabels] = ...
+    splitIntoSets(dataset, labels, testRatio)
 %example numbers from validation and training sets
-valExNum = floor(dataset.exNum * valSetRatio);
-trainExNum = dataset.exNum - valExNum;
+exNum = size(dataset, 1);
 
-%get the indices randomly
-trainExInd = randperm(dataset.exNum, trainExNum);
-trainExIndLogical = false(dataset.exNum, 1);
-trainExIndLogical(trainExInd) = 1;
+testExNum = ceil(exNum * testRatio);
+randOrder = randperm(exNum);
 
-%find actualTraining/validation labels and features
-trainLabels = dataset.trainLabelsFull(trainExIndLogical);
-valLabels = dataset.trainLabelsFull(~trainExIndLogical);
-trainFeats = dataset.trainFeatsFull(trainExIndLogical, :);
-valFeats = dataset.trainFeatsFull(~trainExIndLogical, :);
+testExInd = false(exNum, 1);
+testExInd(randOrder(1:testExNum)) = true;
+
+trainData = dataset(~testExInd, :);
+testData = dataset(testExInd, :);
+
+trainLabels = labels(~testExInd);
+testLabels = labels(testExInd);
 
 end

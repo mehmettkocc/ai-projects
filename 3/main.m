@@ -76,6 +76,9 @@ end
 figure,
 for i = 1:saveTimeNum
     theta = Nsaved(:, :, i) ./ repmat(docLength, [1 K]);
+    if (i == saveTimeNum)
+        finalTheta = theta;
+    end
     subplot(2, 2, i),
     for j = 1:3
         currTheta = theta(truelabels==j, :);
@@ -91,8 +94,43 @@ for i = 1:saveTimeNum
     hold off;
     xlabel('\theta_1'); ylabel('\theta_2'); zlabel('\theta_3');
     title(['Epoch number = ', num2str(NsaveTimes(i))]);
-    %legend('trueLabel=1', 'trueLabel=2', 'trueLabel=3');    
+    %legend('trueLabel=1', 'trueLabel=2', 'trueLabel=3');
 end
 rotate3d on;
 %%
 % SVM training
+FoldNo = 4;
+bestcv = 0;     bestc = 0;
+cstart = -1; cend = 4;
+c = 10.^(cstart:cend);
+
+baseGamma = ceil(FindBaseGamma(finalTheta));
+gstart = log10(baseGamma) - 5;
+gend = log10(baseGamma) + 3;
+g = 10.^(gstart:gend);
+
+CVAcc = zeros(length(c), length(g));
+
+testRatio = 0.3;
+[trainData, trainLabels, testData, testLabels] = ...
+    splitIntoSets(finalTheta, truelabels', testRatio);
+%%
+for i=1:length(c)
+    for j=1:length(g)
+        options=['-m 4000 -q -t 0 -v ', num2str(FoldNo),...
+            ' -c ', num2str(c(i)), ' -g ', num2str(g(j))];
+        cv = svmtrain2(trainLabels, trainData, options);
+        CVAcc(i, j) = cv;
+        if(cv>bestcv)
+            bestcv = cv;
+            bestc = c(i);
+            bestg = g(j);
+        end
+    end
+end
+fprintf('\tbestrate for Gaussian=%g\n\tbestc=%g\n\tbestg=%g\n\t\n\n\n\n\n', bestcv, bestc, bestg);
+
+options=['-m 4000 -t 0 -q' ' -c ', num2str(bestc), ' -g ', num2str(bestg)];
+model=svmtrain2(trainLabels, trainData, options);
+% w = model.sv_coef' * model.SVs;
+[predicted, acc, score] = svmpredict(testLabels, testData, model);
