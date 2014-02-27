@@ -60,8 +60,8 @@ for i=1:K
     highProbWords{i} = vocWords(ind);
 end
 %}
-% select the best 0.2% of all vocabulary for each k in 1:K
-wordNum = ceil(V*K/500);
+% select the best 0.7% of all vocabulary for each k in 1:K
+wordNum = ceil(V/150);
 
 %lastPMF = componentPMFTable(:, :, epochNum);
 highProbWords = selectHighProbWords(componentPMFTable, wordNum, vocInd, vocWords);
