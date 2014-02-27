@@ -4,7 +4,12 @@ load('data/classic400.mat');
 [bowMatrix, eliminatedInd] = preprocessBowMatrix(classic400);
 eliminatedWords = classicwordlist(eliminatedInd);
 vocWords = classicwordlist(~eliminatedInd);
-
+%%
+load('yelpdata.mat');
+[bowMatrix, eliminatedInd] = preprocessBowMatrix(yelpTrain);
+eliminatedWords = classicwordlist(eliminatedInd);
+vocWords = classicwordlist(~eliminatedInd);
+%%
 % initial parameters
 K = 5;  % num. of components in the mixture
 M = size(bowMatrix, 1); % num. of documents in the corpus
