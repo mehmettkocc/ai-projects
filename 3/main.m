@@ -6,13 +6,13 @@ eliminatedWords = classicwordlist(eliminatedInd);
 vocWords = classicwordlist(~eliminatedInd);
 
 % initial parameters
-K = 5;  % num. of components in the mixture
+K = 10;  % num. of components in the mixture
 M = size(bowMatrix, 1); % num. of documents in the corpus
 V = size(bowMatrix, 2); % num. of words in the vocabulary%
 C = full(sum(bowMatrix(:)));  % num. of words in the whole corpus
 docLength = full(sum(bowMatrix, 2));  % num. of words in each document
-alpha0 = 50/K;  % Dirichlet dist. param. for prior p(z)
-beta0 = 0.01;   % Dirichlet dist. param. for prior p(w|z)
+alpha0 = 0.5;  % Dirichlet dist. param. for prior p(z)
+beta0 = 5;   % Dirichlet dist. param. for prior p(w|z)
 
 alpha = alpha0 * ones(K, 1);
 beta = beta0 * ones(V, 1);
