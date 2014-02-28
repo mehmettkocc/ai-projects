@@ -14,7 +14,10 @@ For detailed info, see ./2/report/ai-project-2.pdf
 3. Topic modelling with Latent Dirichlet Allocation (LDA) models with the
 datasets:  
 @ http://cseweb.ucsd.edu/users/elkan/151/classic400.mat   
-@ to be selected  
+@ https://www.yelp.com/academicdataset
+For detailed info, see ./2/report/ai-project3.pdf
 
-4.
+4. Multilabel classification with Neural network models using the datasets:
+@ will be added
+@ will be added
 	
