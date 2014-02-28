@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Random;
 
 import org.tartarus.snowball.SnowballStemmer;
@@ -25,7 +26,7 @@ import com.google.gson.GsonBuilder;
 
 public class BOWExtractor {
 
-	static HashSet<String> dict = new HashSet<String>();
+	static LinkedHashSet<String> dict = new LinkedHashSet<String>();
 	static String[] stopwords ={"a", "about", "above", "across", "after", "afterwards", "all", "almost", 
 		"along", "already", "also","am","among", "amongst", "amoungst", "an", "and", 
 		"another", "any","anyhow","anyone","anything","anyway", "anywhere", "are", "around", "as",  "at", "back","be","became", 
@@ -55,8 +56,8 @@ public class BOWExtractor {
 
 	public static void main(String args[]) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException{
 
-		//				populateReviews();
-		//				stemmer();
+//						populateReviews();
+//						stemmer();
 		populateDict();
 		dict.remove("");
 		for (Iterator<String> i = dict.iterator(); i.hasNext();) {
@@ -176,15 +177,15 @@ public class BOWExtractor {
 
 	private static void populateReviews(){
 		try{
-			BufferedReader reader = new BufferedReader(new FileReader("yelp_validation.txt"));//yelp_training,yelp_testing
+			BufferedReader reader = new BufferedReader(new FileReader("yelp_training.txt"));//yelp_training,yelp_testing,yelp_validation
 			//remember to change name of output files
-			PrintWriter writer = new PrintWriter("onlyReviewsValidation.txt", "UTF-8");
-			PrintWriter writer2 = new PrintWriter("validationLabels.txt", "UTF-8");
+			PrintWriter writer = new PrintWriter("onlyReviewsTrain.txt", "UTF-8");
+			PrintWriter writer2 = new PrintWriter("trainLabels.txt", "UTF-8");
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				Gson gson = new GsonBuilder().create();
 				Review p = gson.fromJson(line, Review.class);
-				String[] arr = p.text.split(" |\\.|/|\\?|!|,|\\)|\\(|:|\"|;|&|'");
+				String[] arr = p.text.split(" |\\.|/|\\?|!|,|\\)|\\(|:|\"|;|&|'|-");
 				for (int i = 0; i < arr.length; i++) {
 					String s = arr[i].replaceAll("\\s+","");
 					boolean flag = true;
