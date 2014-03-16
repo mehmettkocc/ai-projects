@@ -1,0 +1,23 @@
+genel fonksiyonun adi trainTestRAE, zipten tum codeDataMoviesEMNLP dosyasini cikarip trainTestRAEnin oldugu 
+dir'e gittiginde runlarsan direk calisiyor ve sonuc veriyor
+
+kullanilan data su sekilde: rt-polarity.pos ve rt-polarity.neg 5331er tane positive ve
+negative snipper iceriyo, her bi satirda bi snippet var, bu snippetlarin uzunlugu yaklasik
+bir cumle. bu cumleler bi movie review websitesinde positive ve negative labellanmis bi sekilde
+geliyorlar.
+
+trainTestRAE
+	sirayla cagirilan fonksiyonlar:
+	
+	- read_rtPolarity: pos ve negleri okuyor, bazi kelimeleri manual handle ediyor, indicesleri frequencyleri filan cikartiyor
+	- initializeParameters: Wlar hidden visible vs init ediliyor, bu weight ve bias gradientlar vectore donusturuluyor, bu vector de sonradan minFunc'in icine sokulacak
+	- RAECost: minFunc'in icinde cagiriliyor.
+		- computeCostAndGradRAE: RAECost'un icinde cagiriliyor, 
+			- getW: computeCostAndGradRAE'nin icinde cagiriliyor, inputlar: Wcat_flag (update mi degil mi, burada degil), theta (initparamsin outputu), hiddenSize, cat_size, dictionary_length 
+			- forwardPropRAE: computeCostAndGradRAE'nin icinde cagiriliyor, sonucu bir treeye kaydediliyor, forward prop
+	- getW: bu sefer ilk inputu 1 yani update
+	- classifyWithRAE: Log Reg with sigmoid, predictionlar 0.5le threshold edilerek cikiyor
+		- getFeatures: classifyWithRAE'nin icinde cagiriliyor, featurelari cikartiyor
+			- forwardPropRAE: getFeats'in icinde cagiriliyor, yine sonucu treeye kaydedilip tree.nodefeatures feature vectorlerine kaydediliyor
+		- soft_cost: minFunc'in icinde bir sekilde classifyWithRAE'nin icinde cagiriliyor, softmax ya da sigmoid kullaniyor, cost ve gradient output ediyor
+		- getAccuracy: classifyWithRAE'nin icinde cagiriliyor
